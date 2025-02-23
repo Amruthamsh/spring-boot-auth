@@ -22,12 +22,10 @@ import java.util.function.Function;
 @Service
 public class JWTService {
 
-
     private String secretkey = "";
     private final Integer JWT_EXPIRY = 3600000;
 
     public JWTService() {
-
         try {
             KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
             SecretKey sk = keyGen.generateKey();
