@@ -1,9 +1,10 @@
 package com.example.movie_app.service;
 
-import com.example.movie_app.exception.DataIntegrityViolationException;
+import com.example.movie_app.exception.DatabaseErrorException;
 import com.example.movie_app.exception.ResourceNotFoundException;
 import com.example.movie_app.model.Movie;
 import com.example.movie_app.respository.MovieRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +25,9 @@ public class MovieService {
         try{
             return movieRepository.save(movie);
         }catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException(e.getMessage(), e.getCause());
+            throw new DatabaseErrorException("Duplicate entry detected: " + e.getMostSpecificCause().getMessage());
+        }catch (Exception e){
+            throw new DatabaseErrorException("Error while saving movie to database");
         }
     }
 

@@ -21,10 +21,9 @@ public class GlobalExceptionHandler {
     }
 
     // 409
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorResponse> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+    @ExceptionHandler(DatabaseErrorException.class)
+    public ResponseEntity<ErrorResponse> handleDatabaseError(DatabaseErrorException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(new ErrorResponse(409, "Duplicate entry: " + ex.getMostSpecificCause().getMessage()));
+                .body(new ErrorResponse(409, ex.getMessage()));
     }
-
 }
